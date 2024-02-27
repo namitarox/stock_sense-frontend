@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Button, IconButton } from "@material-tailwind/react";
 import Link from "next/link";
 import {
@@ -7,9 +7,20 @@ import {
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { Logo } from "@/components/ui/Logo";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 export const Header: FC = ({}) => {
   const [isLogin, setLogin] = useState(false);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLogin(true);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
   return (
     <header>
       <nav className="flex item-center justify-between p-3 border-gray-100 border-b border-solid bg-white">
@@ -40,24 +51,24 @@ export const Header: FC = ({}) => {
                 className="flex items-center gap-1 border-yellow-800 text-yellow-800 bg-white"
                 size="sm"
                 variant="outlined"
-                onClick={() => setLogin(true)}
               >
                 <PencilSquareIcon className="h-4 w-4 hidden sm:block " />
-                会員登録
+                無料登録
               </Button>
             </Link>
           </div>
         )}
         {isLogin && (
-          <Button
-            ripple={true}
-            size="sm"
-            variant="outlined"
-            className="text-gray-800"
-            onClick={() => setLogin(false)}
-          >
-            マイページ
-          </Button>
+          <Link href="/mypage">
+            <Button
+              ripple={true}
+              size="sm"
+              variant="outlined"
+              className="text-gray-800"
+            >
+              マイページ
+            </Button>
+          </Link>
         )}
       </nav>
     </header>

@@ -7,7 +7,6 @@ import { StockCode } from "@/types/stockCode";
 export const Company: FC = () => {
   const router = useRouter();
   const { id } = router.query; // URLからcodeパラメータを取得
-  console.log(id);
   const [stockCode, setStockCode] = useState<StockCode | null>(null);
   useEffect(() => {
     if (typeof id === "string") {

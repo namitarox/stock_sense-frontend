@@ -27,7 +27,7 @@ export const Top: FC = () => {
       .catch((error) => console.error("Fetching suggestions failed:", error));
   }, []);
 
-  const normalizeString = (str) => {
+  const normalizeString = (str: String) => {
     // 全角英数字を半角に変換し、英字を小文字にする
     const halfWidth = str
       .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) =>
